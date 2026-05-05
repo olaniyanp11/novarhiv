@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background-color: #023436;
+  color: #e8f5ec;
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: #023436; }
+::-webkit-scrollbar-thumb  { background: #0a4d27; border-radius: 4px; }
+
+/* Recharts tooltip fix */
+.recharts-tooltip-wrapper { outline: none; }
+
+/* Dropdown show on hover */
+.user-badge:hover .dropdown-menu { display: block; }
