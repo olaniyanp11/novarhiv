@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -8,7 +7,12 @@ import { NAV_ITEMS } from "@/lib/data";
 import { getInitials, getDisplayName } from "@/lib/auth";
 import Image from "next/image";
 
-export default function Sidebar() {
+interface SidebarProps {
+  open?: boolean;
+  onClose?: () => void;
+}
+
+export default function Sidebar({ open = false, onClose }: SidebarProps) {
   const { user } = useAuth();
   const pathname = usePathname();
 
@@ -19,14 +23,24 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-[220px] min-w-[220px] bg-nova-card border-r border-nova-border flex flex-col fixed top-0 left-0 h-screen z-[100]">
-      {/* Logo */}
-      <div className="px-5 py-6 border-b border-nova-border">
-      <Image src={"/images/logo.png"} alt={"Nova"} width={200} height={200}/>
+    <aside className={`fixed inset-y-0 left-0 z-[100] w-[220px] transform transition-transform duration-300 ease-in-out bg-nova-card border-r border-nova-border flex flex-col overflow-y-auto ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static md:h-screen`}>
+      <div className="flex items-center justify-between px-5 py-4 border-b border-nova-border md:hidden">
+        <div className="text-lg font-bold text-nova-textPrimary">Nova</div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="w-10 h-10 rounded-[10px] bg-nova-surface border border-nova-border text-nova-textSecondary hover:text-nova-neon"
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 py-4 overflow-y-auto">
+      <div className="px-5 py-6 border-b border-nova-border">
+        <Image src="/images/logo.png" alt="Nova" width={200} height={200} />
+      </div>
+
+      <nav className="flex-1 py-4">
         {sections.map((section) => (
           <div key={section.label}>
             <div className="text-[10px] text-nova-textMuted uppercase tracking-[2px] px-5 pt-2 pb-1.5">
@@ -38,14 +52,8 @@ export default function Sidebar() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`
-                    w-full flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium
-                    border-l-[3px] transition-all duration-200 cursor-pointer text-left
-                    ${isActive
-                      ? "border-nova-neon bg-nova-neon/[0.08] text-nova-neon"
-                      : "border-transparent text-nova-textSecondary hover:bg-nova-surface hover:text-nova-textPrimary"
-                    }
-                  `}
+                  onClick={onClose}
+                  className={`w-full flex items-center gap-3 px-5 py-2.5 text-[14px] font-medium border-l-[3px] transition-all duration-200 cursor-pointer text-left ${isActive ? "border-nova-neon bg-nova-neon/[0.08] text-nova-neon" : "border-transparent text-nova-textSecondary hover:bg-nova-surface hover:text-nova-textPrimary"}`}
                 >
                   <span className="text-base w-5 text-center">{item.icon}</span>
                   {item.label}
@@ -56,7 +64,6 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* User mini */}
       {user && (
         <div className="px-5 py-4 border-t border-nova-border">
           <div className="flex items-center gap-2.5 p-2.5 rounded-[10px] cursor-pointer hover:bg-nova-surface transition-colors">

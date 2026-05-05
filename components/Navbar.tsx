@@ -6,9 +6,10 @@ import { getInitials } from "@/lib/auth";
 
 interface NavbarProps {
   onOpenLogin: () => void;
+  onToggleMenu: () => void;
 }
 
-export default function Navbar({ onOpenLogin }: NavbarProps) {
+export default function Navbar({ onOpenLogin, onToggleMenu }: NavbarProps) {
   const { user, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -24,7 +25,6 @@ export default function Navbar({ onOpenLogin }: NavbarProps) {
     setDropdownOpen(false);
   };
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -36,14 +36,21 @@ export default function Navbar({ onOpenLogin }: NavbarProps) {
   }, []);
 
   return (
-    <header className="bg-nova-card border-b border-nova-border px-7 h-16 flex items-center gap-4 sticky top-0 z-[90]">
-      {/* Page title */}
-      <h1 className=" text-[18px] font-bold text-nova-textPrimary flex-1">
+    <header className="bg-nova-card border-b border-nova-border px-4 sm:px-7 h-16 flex flex-wrap items-center gap-3 sticky top-0 z-[90]">
+      <button
+        type="button"
+        onClick={onToggleMenu}
+        className="inline-flex items-center justify-center w-10 h-10 rounded-[10px] bg-nova-surface border border-nova-border text-nova-textSecondary hover:text-nova-neon md:hidden"
+        aria-label="Open navigation menu"
+      >
+        ☰
+      </button>
+
+      <h1 className="text-[18px] font-bold text-nova-textPrimary flex-1 min-w-0">
         Dashboard
       </h1>
 
-      {/* Search */}
-      <div className="flex items-center gap-2 bg-nova-surface border border-nova-border rounded-[10px] px-3.5 py-2 w-[220px]">
+      <div className="hidden sm:flex items-center gap-2 bg-nova-surface border border-nova-border rounded-[10px] px-3.5 py-2 w-full max-w-[280px]">
         <span className="text-nova-textMuted text-[14px]">🔍</span>
         <input
           type="text"
@@ -52,20 +59,19 @@ export default function Navbar({ onOpenLogin }: NavbarProps) {
         />
       </div>
 
-      {/* Date badge */}
-      <div className="text-[12px] text-nova-textMuted bg-nova-surface border border-nova-border px-3 py-1 rounded-full">
-        {dateStr}
+      <div className="hidden sm:inline-flex items-center gap-3">
+        <div className="text-[12px] text-nova-textMuted bg-nova-surface border border-nova-border px-3 py-1 rounded-full">
+          {dateStr}
+        </div>
+
+        <button className="w-[38px] h-[38px] rounded-[10px] bg-nova-surface border border-nova-border flex items-center justify-center cursor-pointer transition-all duration-200 text-[16px] text-nova-textSecondary relative hover:border-nova-neon hover:text-nova-neon">
+          🔔
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-nova-neon rounded-full text-[9px] font-bold text-nova-deep flex items-center justify-center">
+            3
+          </span>
+        </button>
       </div>
 
-      {/* Notifications */}
-      <button className="w-[38px] h-[38px] rounded-[10px] bg-nova-surface border border-nova-border flex items-center justify-center cursor-pointer transition-all duration-200 text-[16px] text-nova-textSecondary relative hover:border-nova-neon hover:text-nova-neon">
-        🔔
-        <span className="absolute -top-1 -right-1 w-4 h-4 bg-nova-neon rounded-full text-[9px] font-bold text-nova-deep flex items-center justify-center">
-          3
-        </span>
-      </button>
-
-      {/* Auth area */}
       {user ? (
         <div className="relative" ref={dropdownRef}>
           <button
@@ -101,7 +107,7 @@ export default function Navbar({ onOpenLogin }: NavbarProps) {
       ) : (
         <button
           onClick={onOpenLogin}
-          className="bg-gradient-to-br from-nova-neon to-nova-mid text-nova-deep px-5 py-2 rounded-[10px] text-[13px] font-bold  hover:opacity-90 transition-opacity border-none cursor-pointer"
+          className="bg-gradient-to-br from-nova-neon to-nova-mid text-nova-deep px-5 py-2 rounded-[10px] text-[13px] font-bold hover:opacity-90 transition-opacity border-none cursor-pointer"
         >
           Login
         </button>

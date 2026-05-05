@@ -15,7 +15,7 @@ export default function QuickActions() {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: 0.05 }}
-      className="flex gap-3 mb-6"
+      className="flex flex-col sm:flex-row gap-3 mb-6"
     >
       {ACTIONS.map((action) => (
         <button

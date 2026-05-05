@@ -15,10 +15,10 @@ export default function GreetingBar({ user }: GreetingBarProps) {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="flex items-center justify-between mb-6 px-6 py-5 bg-nova-card border border-nova-border rounded-[16px]"
+      className="flex flex-col gap-4 lg:flex-row lg:items-center justify-between mb-6 px-4 sm:px-6 py-5 bg-nova-card border border-nova-border rounded-[16px]"
     >
       <div>
-        <h2 className=" text-[42px] font-extrabold text-nova-textPrimary">
+        <h2 className="text-[28px] sm:text-[34px] lg:text-[42px] font-extrabold text-nova-textPrimary">
           {name ? `Welcome back, ${name}!` : "Welcome to Novarhives"}
         </h2>
         <p className="text-[13px] text-nova-textMuted mt-1 flex items-center gap-2">
@@ -26,7 +26,7 @@ export default function GreetingBar({ user }: GreetingBarProps) {
           Markets are up today — your portfolio gained +2.3%
         </p>
       </div>
-      <div className="text-right">
+      <div className="w-full text-left lg:text-right">
         <div className="text-[11px] text-nova-textMuted uppercase tracking-[1px] mb-0.5">
           Portfolio Value
         </div>

@@ -21,7 +21,7 @@ export default function HoldingsTable() {
         {MOCK_HOLDINGS.map((holding) => (
           <div
             key={holding.id}
-            className="flex items-center justify-between p-4 bg-nova-surface rounded-[12px] hover:bg-nova-surface/80 transition-colors"
+            className="flex flex-col gap-4 p-4 bg-nova-surface rounded-[12px] hover:bg-nova-surface/80 transition-colors md:flex-row md:items-center md:justify-between"
           >
             <div className="flex items-center gap-4">
               <div
